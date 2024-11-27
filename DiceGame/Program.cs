@@ -1,11 +1,19 @@
-﻿StartApp();
+﻿using System.Text;
+
+StartApp();
 void StartApp()
 {
     bool bCheck = true;
 
     while (bCheck)
     {
-        Message("Welcome to the Dice Game, please press any key to continue!");
+        Message("""
+                Welcome to the Dice Game: 
+                    - When you roll the dice, the enemy will roll as well.
+                    - After 10 round the game will calculate the score.
+                    - After that, the winner will be determined.
+                """);
+        Message("Press any key to start game :)");
         Console.ReadKey();
         Console.Clear();
         
@@ -33,7 +41,7 @@ void Looping(out int player, out int enemy)
     
     for (int i = 0; i < 10; i++)
     {
-        Message("Please, press any key to throw the dice");
+        Message("Please, press any key to roll the dice");
         Console.ReadKey();
         nPlayer += GameConcept(rRandom, "Player");
         Message("--------------");
@@ -59,7 +67,7 @@ void CheckWinner(int player, int enemy)
     if (player > enemy)
         Message("Player is the winner :)");
     else
-        Message("Enemy is the winner");
+        Message("Enemy is the winner :(");
 }
 
 bool CheckContinue()
