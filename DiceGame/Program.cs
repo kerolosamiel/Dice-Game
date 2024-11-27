@@ -1,14 +1,16 @@
-﻿using System.Text;
-
-StartApp();
+﻿StartApp();
 void StartApp()
 {
+    Message("Please Enter your name:");
+    string sName = Console.ReadLine()!;
+    sName = String.IsNullOrEmpty(sName) ? "player" : sName; 
+    Console.Clear();
+    
     bool bCheck = true;
-
     while (bCheck)
     {
-        Message("""
-                Welcome to the Dice Game: 
+        Message($"""
+                Hello {sName}, Welcome to the Dice Game: 
                     - When you roll the dice, the enemy will roll as well.
                     - After 10 round the game will calculate the score.
                     - After that, the winner will be determined.
@@ -17,8 +19,8 @@ void StartApp()
         Console.ReadKey();
         Console.Clear();
         
-        Looping(out int nPlayerScore, out int nEnemyScore);
-        CheckWinner(nPlayerScore, nEnemyScore);
+        Looping(out int nPlayerScore, out int nEnemyScore, sName);
+        CheckWinner(nPlayerScore, nEnemyScore, sName);
         Message("Do you want to try again? (Y/N)");
 
         bCheck = CheckContinue();
@@ -33,7 +35,7 @@ void Message (string message)
     Console.WriteLine(message);
 }
 
-void Looping(out int player, out int enemy)
+void Looping(out int player, out int enemy, string name)
 {
     Random rRandom = new Random();
     int nPlayer = 0;
@@ -43,7 +45,7 @@ void Looping(out int player, out int enemy)
     {
         Message("Please, press any key to roll the dice");
         Console.ReadKey();
-        nPlayer += GameConcept(rRandom, "Player");
+        nPlayer += GameConcept(rRandom, name);
         Message("--------------");
         nEnemy += GameConcept(rRandom, "Enemy");
         Message("");
@@ -55,26 +57,24 @@ void Looping(out int player, out int enemy)
 
 int GameConcept(Random random, string player)
 {
-    int nRendom = random.Next(1, 7);
-    Message($"{player} get: {nRendom}");
-    return nRendom;
+    int nRandom = random.Next(1, 7);
+    Message($"{player} get: {nRandom}");
+    return nRandom;
 }
 
-void CheckWinner(int player, int enemy)
+void CheckWinner(int player, int enemy, string name)
 {
-    Message($"Player Score: {player}");
+    Message($"{name} Score: {player}");
     Message($"Enemy Score: {enemy}");
-    if (player > enemy)
-        Message("Player is the winner :)");
-    else
-        Message("Enemy is the winner :(");
+    Message(player > enemy ? $"{name} is the winner :)" : "Enemy is the winner :(");
 }
 
 bool CheckContinue()
 {
-    string? sUserAnswer = Console.ReadLine()!.ToLower();
+    string sUserAnswer = Console.ReadLine()!;
 
-    switch (sUserAnswer)
+    switch (sUserAnswer.ToLower())
+    
     {
         case "yes":
         case "y":
